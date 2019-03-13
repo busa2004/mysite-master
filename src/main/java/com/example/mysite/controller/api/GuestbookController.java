@@ -36,6 +36,7 @@ public class GuestbookController {
 	@ResponseBody
 	@RequestMapping("/add")
 	public JSONResult writeMessage( GuestbookVo vo) {
+		System.out.println("=========================="+vo.getMessage());
 		return JSONResult.success(guestbookService.writeMessage(vo));
 	}
 }

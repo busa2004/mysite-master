@@ -1,5 +1,7 @@
 package com.example.mysite.vo;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class BoardVo {
 	private Long no;
 	private String title;

@@ -3,11 +3,13 @@ package com.example.mysite.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -112,16 +114,18 @@ public class BoardController {
 	@RequestMapping( value="/write", method=RequestMethod.POST )	
 	public String write(
 		HttpSession session,
-		@ModelAttribute BoardVo boardVo,
+		@ModelAttribute @Valid BoardVo boardVo,
 		@RequestParam( value="p", required=true, defaultValue="1") Integer page,
-		@RequestParam( value="kwd", required=true, defaultValue="") String keyword ) {
-
+		@RequestParam( value="kwd", required=true, defaultValue="") String keyword) {
+		
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 
 		/* 접근제어 */
 		if(null == authUser) {
 			return "redirect:/";
 		}
+		
+		
 		
 		boardVo.setUserNo( authUser.getNo() );
 		

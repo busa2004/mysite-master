@@ -35,5 +35,9 @@ public class UserService {
 	public boolean modifyUser( UserVo userVo ) {
 		return userDao.update( userVo ) == 1;
 	}
+
+	public UserVo loginCheck(UserVo userVo) {
+		return userDao.get( userVo );
+	}
 	
 }

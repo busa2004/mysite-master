@@ -1,10 +1,21 @@
 package com.example.mysite.vo;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class UserVo {
 	private Long no;
-	
+	@NotEmpty
+	@Length(min=2,max=8)
 	private String name;
+	@NotEmpty
+	@Email
 	private String email;
+	@NotEmpty
+//	@Pattern(regexp="/^.*(?=^.{8,15}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/\r\n")
 	private String password;
 	private String gender;
 	private String role;

@@ -77,7 +77,7 @@ var render = function( vo, mode ) {
 	var html = 
 		"<li data-no='" + vo.no + "'>" +
 		"	<strong>" + vo.name + "</strong>" +
-		"	<p>" + vo.message.replace( /\n/gi, "<br>" )  + "</P>" + 
+		"	<p>" + vo.message  + "</P>" + 
 		"   <a href='' data-no='" + vo.no + "'>삭제</a>" + 
 		"</li>";
 	/*
@@ -224,7 +224,8 @@ $(function(){
 			return;
 		}
 		
-		vo.message = $( "#ta-message" ).val();
+		vo.message = $( "#ta-message" ).val().replace( /\n/gi, "<br>" );
+		console.log(vo.message);
 		if( vo.message === "" ){
 			messageBox( "방명록에 글 남기기", "내용은 필수 입력 항목입니다.", function(){
 				$( "#ta-message" ).focus();
@@ -240,11 +241,12 @@ $(function(){
 		console.log( JSON.stringify( vo ) );
 		$.ajax( {
 			url : "${pageContext.request.contextPath }/guestbook/api/add?name="+vo.name+"&password="+vo.password+"&message="+vo.message,
+			//url : "${pageContext.request.contextPath }/guestbook/api/add",
 			type: "get",
 			dataType: "json",
 			//data: $.param( vo ),
 			data: "",
-				//JSON.stringify( vo ),
+			//data: JSON.stringify( vo ),
 			contentType: 'application/json', //JSON Type으로 데이터를 보낼 때,
 			success: function( response ){
 				if( response.result === "fail" ) {

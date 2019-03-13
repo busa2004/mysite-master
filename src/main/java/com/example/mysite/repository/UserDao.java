@@ -38,4 +38,11 @@ public class UserDao {
 	public int insert( UserVo userVo ) {
 		return sqlSession.insert( "user.insert", userVo );
 	}
+
+	public UserVo get(UserVo userVo) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put( "email", userVo.getEmail() );
+		map.put( "password",userVo.getPassword() );
+		return sqlSession.selectOne( "user.getByEmailAndPassword", map );
+	}
 }

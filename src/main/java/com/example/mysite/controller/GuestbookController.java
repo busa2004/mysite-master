@@ -2,9 +2,12 @@ package com.example.mysite.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +24,7 @@ public class GuestbookController {
 	private GuestbookService guestbookService;
 	
 	@RequestMapping( "" )
-	public String index( Model model ){
+	public String index( Model model ,GuestbookVo guestbookVo){
 		List<GuestbookVo> list = guestbookService.getMessageList();
 		model.addAttribute( "list", list );
 		return "guestbook/index";
@@ -34,15 +37,22 @@ public class GuestbookController {
 	}
 	
 	@RequestMapping( value="/delete", method=RequestMethod.POST )
-	public String delete( @ModelAttribute GuestbookVo vo ){
-		System.out.println( vo );
-		guestbookService.deleteMessage( vo );
+	public String delete( @ModelAttribute GuestbookVo guestbookVo ){
+		guestbookService.deleteMessage( guestbookVo );
 		return "redirect:/guestbook";
 	}
 	
 	@RequestMapping( value="/add", method=RequestMethod.POST )
-	public String add( @ModelAttribute GuestbookVo vo ) {
-		guestbookService.writeMessage( vo );
+	public String add( @ModelAttribute @Valid GuestbookVo guestbookVo ,
+			BindingResult result,
+			Model model) {
+		if(result.hasErrors()) {
+			List<GuestbookVo> list = guestbookService.getMessageList();
+			model.addAttribute( "list", list );
+			model.addAllAttributes(result.getModel());
+			return "guestbook/index";
+		}
+		guestbookService.writeMessage( guestbookVo );
 		return "redirect:/guestbook";
 	}
 	
