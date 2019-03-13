@@ -202,8 +202,8 @@
 				<configuration>
 					<url>http://127.0.0.1:8080/manager/text</url>
 					<path>/mysite3</path>
-					<username>kickscar</username>
-					<password>Yattadog1971</password>
+					<username>admin</username>
+					<password>manager</password>
 				</configuration>
 			</plugin>
 		</plugins>
